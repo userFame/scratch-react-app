@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+// const CleanWebpackPlugin = require('clean-webpack-plugin')
 const webpack = require('webpack')
 
 module.exports = {
@@ -8,6 +9,7 @@ module.exports = {
     entry: {
         // app: ['babel-polyfill','./index.jsx'],
         // about: ['babel-polyfill','./about.jsx']
+
         app: './index.jsx',
         about: './about.jsx',
         vendor: ['react', 'react-dom', 'react-router-dom']
@@ -16,7 +18,8 @@ module.exports = {
     // entry: path.join(__dirname, 'app', 'index.js'),
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: '[name].bundle.js'
+        filename: '[name].bundle.js',
+        publicPath: '/'
     },
 
 
@@ -61,9 +64,10 @@ module.exports = {
     //     alias: {
     //         'styles': path.resolve(__dirname, 'app/styles')
     //     }
-    // }
+    // },
 
     plugins: [
+        // new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'index.html'),
             hash: true,
@@ -86,5 +90,7 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
             name: ['commons', 'vendor', 'bootstrap']
         })
-    ]
+    ],
+
+
 }

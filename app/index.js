@@ -1,1 +1,1 @@
-alert('hey my niggas whats poppin')
+alert('hey my dudes whats poppin')
