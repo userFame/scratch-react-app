@@ -11,7 +11,8 @@ module.exports = {
         // about: ['babel-polyfill','./about.jsx']
 
         app: './index.jsx',
-        about: './about.jsx',
+        // about: './about.jsx',
+        // user: './user.jsx',
         vendor: ['react', 'react-dom', 'react-router-dom']
     },
 
@@ -46,9 +47,26 @@ module.exports = {
                 test: /\.(png|jpg)$/,
                 loader: 'file-loader',
                 include: path.join(__dirname, 'app')
-            }
-
-        ]
+            },
+            // for fonts?
+            {
+                test: /\.(eot|svg|ttf|woff|woff2|otf)$/,
+                loader: 'file-loader',
+                include: path.join(__dirname, 'app', 'public', 'fonts')
+                }
+        ],
+        // rules: [
+        //     {
+        //         test: /\.(js$|jsx)$/,
+        //         exclude: /node_modules/,
+        //         use: ['babel-loader']
+        //     },
+        //     {
+        //         test: /\.(js$|jsx)$/,
+        //         exclude: /node_modules/,
+        //         use: ['babel-loader', 'eslint-loader']
+        //     }
+        // ]
     },
 
     devServer: {
@@ -77,13 +95,22 @@ module.exports = {
         }),
 
         // creates localhost:8080/about.html
-        new HtmlWebpackPlugin({
-            template: path.join(__dirname, 'index.html'),
-            hash: true,
-            filename: 'about.html',
-            excludeChunks: ['app']
+        // new HtmlWebpackPlugin({
+        //     template: path.join(__dirname, 'index.html'),
+        //     hash: true,
+        //     filename: 'about.html',
+        //     excludeChunks: ['app']
+        //     // chunks: ['commons', 'about']
+        // }),
+
+        // creates localhost:8080/user.html
+        // new HtmlWebpackPlugin({
+            // template: path.join(__dirname, 'index.html'),
+            // hash: true,
+            // filename: 'user.html',
+            // includeChunks: ['user']
             // chunks: ['commons', 'about']
-        }),
+        // }),
         
         new webpack.HotModuleReplacementPlugin(),
 
