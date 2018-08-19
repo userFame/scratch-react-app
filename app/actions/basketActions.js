@@ -3,7 +3,8 @@ import {
     FETCH_BASKET_BY_ID,
     POST_BASKET,
     PUT_BASKET,     
-    DELETE_BASKET_ITEM
+    DELETE_BASKET_ITEM,
+    VIEW
 } from './types'
 
 const url = 'http://localhost:5000/products-route'
@@ -48,7 +49,7 @@ export const fetchBasketById = (itemId) => dispatch => {
     })
 }
 
-export const postBasket = postData => dispatch => {
+export const postBasket = (postData, view) => dispatch => {
     console.log('postData', postData)
     fetch( url, {
         headers: {
@@ -65,30 +66,54 @@ export const postBasket = postData => dispatch => {
     }))
 }
 
-export const putBasket = (postData) => dispatch => {
-    fetch(`${url}${postData._id}`), {
+export const postCheerioBasket = (thirdPartySiteUrl) => {
+    console.log(`postCheerioData: ${thirdPartySiteUrl}`)
+    fetch(thirdPartySiteUrl,{
+        headers: {
+            'conent-type': 'application/json'
+        },
+        method: 'POST',
+        // dont need to stringify??
+        body: JSON.stringify(thirdPartySiteUrl)})
+        // body: thirdPartySiteUrl})
+    .then(res => res.json())
+    .then(res => console.log(res))
+    .then(post => dispatch({
+        type: POST_BASKET,
+        payload: post
+    }))
+}
+
+export const putBasket = (id, updateData) => dispatch => {
+    fetch(`${url}/${id}`, {
+        headers: {
+            'content-type': 'application/json'
+        },
         method: 'PUT',
-        body: JSON.stringify(postData)
-    }.then(update => {
+        body: JSON.stringify(updateData)
+    })
+    .then(res => res.json())
+    .then(update => {
         console.log(update)
         dispatch({
             type: PUT_BASKET,
-            payload: update
+            payload: {}
         })
     })
 }
 
-export const deleteBasketItem = (itemId) => dispatch => {
+export const deleteBasketItem = (itemId, view) => dispatch => {
+    console.log('delete from actions', itemId)
     return fetch(`${url}/${itemId}`, {
         method: 'DELETE'
     })
     .then(fetch('http://localhost:5000/products-route')
-        // .then(res => res.json())
+        .then(res => res.json())
         .then(products => {
             console.log('basket actions', products)
             dispatch({
                 type: DELETE_BASKET_ITEM,
-                payload: itemId
+                payload: [itemId, view]
             })
         })
         .catch(err => console.log(err)))
@@ -102,6 +127,14 @@ export const deleteBasketItem = (itemId) => dispatch => {
         // })
     // })
     // .catch(err => console.log(err))
+}
+
+export const passView = (view, product) => dispatch => {
+    console.log('from passView in basket actions: ', view, product)
+    dispatch({
+        type: VIEW,
+        payload: [view, product]
+    })
 }
 
 
