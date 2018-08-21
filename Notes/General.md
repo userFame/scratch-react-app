@@ -165,3 +165,31 @@ export const fetchPosts = () => dispatch => {
 
 ```
 
+```json
+{_id: "5b493b88c10ff91bffd46abc", productName: "VIZIO E-Series 65" Class (64.5" Diag.) 4K HDR Smart TV - Black (E65-F0)", price: 749.99, url: "https://www.target.com/p/vizio-e-series-65-class-64-5-diag-4k-hdr-smart-tv-black-e65-f0/-/A-50651388", ppm: 35, …}
+cheerio
+:
+true
+list
+:
+"animal"
+ppm
+:
+35
+price
+:
+749.99
+productName
+:
+"VIZIO E-Series 65" Class (64.5" Diag.) 4K HDR Smart TV - Black (E65-F0)"
+type
+:
+"asdf"
+url
+:
+"https://www.target.com/p/vizio-e-series-65-class-64-5-diag-4k-hdr-smart-tv-black-e65-f0/-/A-50651388"
+_id
+:
+"5b493b88c10ff91bffd46abc"
+```
+
