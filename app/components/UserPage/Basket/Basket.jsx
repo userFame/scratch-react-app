@@ -29,21 +29,48 @@ class Basket extends Component {
     //         accumulatedProducts: '10'
     //     }
     // }
-    
-    render() { 
-        console.log('state' , this.state)
-        console.log('props', this.props)
-        return(
+
+
+    render() {
+        console.log('state from basket', this.state)
+        console.log('props from basket', this.props)
+        let totalPrice, totalPPM
+        const itemsInBucketArray = []
+        const pricePerMonthArray = []
+
+        this.props.basket.map((item, index) => {
+            itemsInBucketArray.push(item.price)
+            pricePerMonthArray.push(item.ppm)
+        })
+
+        if (itemsInBucketArray.length > 0) {
+            totalPrice = itemsInBucketArray.reduce((a, b) => a + b)
+        } 
+        // else if (!itemsInBucketArray.length) {
+        //     totalPrice = 0
+        // }
+        if (pricePerMonthArray.length > 0) {
+            totalPPM = pricePerMonthArray.reduce((a, b) => a + b)
+        } 
+        // else if (!pricePerMonthArray.length) {
+        //     totalPPM = 0
+        // }
+
+        console.log(itemsInBucketArray)
+
+        return (
             <DivStyle>
                 <CompName>
                     Basket
                 </CompName>
                 <div>
-                    Piggy Bank: {this.props.basket.piggyBank}
+                    Piggy Bank (How much you can spend per month?):
                     <br />
-                    Total Price of Products in Basket: {this.props.basket.accumulatedPrice}
+                    Total Price of Products in Basket: {`$${totalPrice}`}
                     <br />
-                    Total Amount of Products in Basket: {this.props.basket.accumulatedProducts}
+                    Total Amount of Products in Basket: {itemsInBucketArray.length}
+                    <br />
+                    Total Amount Per Month Spending in Basket: {`$${totalPPM}`}
                 </div>
             </DivStyle>
         )
@@ -51,7 +78,7 @@ class Basket extends Component {
 }
 
 const mapStateToProps = state => ({
-    
+
     basket: state.basket.items
     // return {
     //     piggyBank: state.piggyBank,

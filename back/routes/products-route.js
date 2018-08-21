@@ -1,4 +1,6 @@
 const ObjectId = require('mongodb').ObjectId
+const request = require('request')
+const cheerio = require('cheerio')
 
 module.exports = function (app, db) {
     // Get All function
@@ -37,21 +39,69 @@ module.exports = function (app, db) {
     // Post function
     app.post('/products-route', (req, res) => {
         console.log(req.body)
-        const product = {
+        let product = {
             productName: req.body.productName,
             price: req.body.price,
             url: req.body.url,
             ppm: req.body.ppm,
             type: req.body.type,
-            list: req.body.list
+            list: req.body.list,
+            cheerio: req.body.cheerio
         }
-        db.collection('products').insert(product, (err, result) => {
-            if (err) {
-                res.send({ 'error': 'An error has occured' })
-            } else {
-                res.send(result.ops[0])
-            }
-        })
+        // add cheerio to body of req === true so that post knows it is coming from cheerio
+        if (req.body.cheerio === true) {
+            console.log(req.body)
+            request(req.body.url, function(err, resp, html) {
+                
+                if(!err) {
+                    console.log(`from cheerio html: ${html}`)
+                    const $ = cheerio.load(html)
+                    // console.log('trying to log title', $('#mainContainer > div > div > div.styles__TopContainerDiv-vttgqz-2.dIPHNm > div.styles__DescriptionContainerDiv-vttgqz-3.dalZqG > div.h-margin-v-tight.h-padding-h-default > h1 > span').text())
+                    product.url = req.body.url
+                    product.productName = $('#mainContainer > div > div > div.styles__TopContainerDiv-vttgqz-2.dIPHNm > div.styles__DescriptionContainerDiv-vttgqz-3.dalZqG > div.h-margin-v-tight.h-padding-h-default > h1 > span').text()
+                    product.price = $('#mainContainer > div > div > div.styles__TopContainerDiv-vttgqz-2.dIPHNm > div.styles__SidebarContainerDiv-vttgqz-4.fBTXbo > div > div > div:nth-child(1) > span').text()
+                    product.ppm = Number(req.body.ppm)
+                    product.type = req.body.type
+                    product.list = req.body.list
+                    product.cheerio = req.body.cheerio
+
+                    console.log('this is the product object', product)
+
+                    let moneySignIndex = product.price.indexOf('$')
+                    let includesMoneySign = product.price.includes('$')
+
+                    if (includesMoneySign) {
+                        // to get only number from price if there is letters in it 
+                        // https://justcode.me/how-to/remove-text-from-string-in-javascript/
+                        // product.price = Number(product.price.slice(moneySignIndex + 1)) with a .match(/\d+$/)
+                        product.price = Number(product.price.slice(moneySignIndex + 1))
+                        
+                    } else {
+                        product.price = Number(product.price)
+                    }
+
+
+
+                    db.collection('products').insert(product, (err, result) => {
+                        if (err) {
+                            res.send({ 'error': 'An error has occured' })
+                        } else {
+                            res.send(result.ops[0])
+                        }
+                    })
+                }
+            })
+        } else {
+            product.ppm = Number(req.body.ppm)
+            product.price = Number(req.body.price)
+            db.collection('products').insert(product, (err, result) => {
+                if (err) {
+                    res.send({ 'error': 'An error has occured' })
+                } else {
+                    res.send(result.ops[0])
+                }
+            })
+        }
     })
 
     // update function
