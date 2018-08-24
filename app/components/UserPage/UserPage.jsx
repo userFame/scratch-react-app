@@ -1,4 +1,4 @@
-import React, { Component } from 'React'
+import React, { Component } from 'react'
 import NavigationBar from '../Widgets/NavigationBar/NavigationBar.jsx'
 import ProfilePicture from '../UserPage/ProfilePicture/ProfilePicture.jsx'
 import Basket from '../UserPage/Basket/Basket.jsx'

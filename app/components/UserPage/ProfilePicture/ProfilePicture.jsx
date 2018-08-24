@@ -1,4 +1,4 @@
-import React, { Component } from 'React'
+import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'
 // import '../../UserPage/ProfilePicture/ProfilePicture.css'
 import styled from 'styled-components'
