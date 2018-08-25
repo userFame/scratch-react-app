@@ -4,11 +4,14 @@ import ProfilePicture from '../UserPage/ProfilePicture/ProfilePicture.jsx'
 import Basket from '../UserPage/Basket/Basket.jsx'
 import Wishlist from '../UserPage/Wishlist/Wishlist.jsx'
 import WishListForm from '../UserPage/WishListForm/WishListForm.jsx'
+import AddFromUrlForm from './AddFromUrl/AddFromUrlForm.jsx'
 
 import styled from 'styled-components'
 
 import { connect } from 'react-redux'
-import { fetchBasket } from '../../actions/basketActions'
+import { fetchBasket, postBasket } from '../../actions/basketActions'
+
+
 
 const UserPageStyle = styled.div`
     box-sizing: border-box;
@@ -53,7 +56,9 @@ class UserPage extends Component {
                     {/* <Wishlist /> */}
                     <Basket />
                     <WishListForm />
+                    <AddFromUrlForm post={this.props.postBasket}/>
                 </div>
+
             </UserPageStyle>
         )
     }
@@ -69,4 +74,4 @@ const mapStateToProps = state => ({
     // }
 })
 
-export default connect(mapStateToProps, { fetchBasket })(UserPage)
+export default connect(mapStateToProps, { fetchBasket, postBasket })(UserPage)

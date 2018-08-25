@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 // import { connect } from 'react-redux'
+import styled from 'styled-components'
 
-
+const Margin = styled.div`
+    box-sizing: border-box;
+    margin: 1em;
+`
 class ProductList extends Component {
 
     render() {
@@ -26,7 +30,7 @@ class ProductList extends Component {
         ))
         return (
             // console.log('productList', props),
-            <div className='page-header'>
+            <Margin className='page-header'>
                 <div className='btn-toolbar pull-right'>
                     <div className='btn-group'>
                         <button onClick={this.props.changeView.bind(this, 'create')} type='button' className='btn btn-success'>Create</button>
@@ -34,6 +38,7 @@ class ProductList extends Component {
 
                 </div>
                 <h3>Products</h3>
+
                 <table>
                     <thead>
                         <tr>
@@ -50,7 +55,7 @@ class ProductList extends Component {
                         {productsInBasket}
                     </tbody>
                 </table>
-            </div>
+            </Margin>
         )
     }
 }
