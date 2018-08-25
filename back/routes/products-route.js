@@ -7,17 +7,6 @@ module.exports = function (app, db) {
     app.get('/products-route', (req, res) => {
         db.collection('products').find().toArray()
             .then(products => {
-                // console.log(products)
-                // for (let i = 0; i < products.length; i++) {
-                //     let product = products[i]
-                //     product.productName = products[i].productName
-                //     product.price = products[i].price
-                //     product.url = products[i].url
-                //     product.ppm = products[i].ppm
-                //     product.type = products[i].type
-                //     product.list = products[i].list
-                // }
-                // return product
                 res.send(products)
             }).then(json => JSON.stringify(json))
             .catch(err => console.log(err))
@@ -54,7 +43,7 @@ module.exports = function (app, db) {
             request(req.body.url, function(err, resp, html) {
                 
                 if(!err) {
-                    console.log(`from cheerio html: ${html}`)
+                    // console.log(`from cheerio html: ${html}`)
                     const $ = cheerio.load(html)
                     // console.log('trying to log title', $('#mainContainer > div > div > div.styles__TopContainerDiv-vttgqz-2.dIPHNm > div.styles__DescriptionContainerDiv-vttgqz-3.dalZqG > div.h-margin-v-tight.h-padding-h-default > h1 > span').text())
                     product.url = req.body.url
@@ -66,18 +55,31 @@ module.exports = function (app, db) {
                     product.cheerio = req.body.cheerio
 
                     console.log('this is the product object', product)
+                   
 
                     let moneySignIndex = product.price.indexOf('$')
                     let includesMoneySign = product.price.includes('$')
+                    let regex = /sale/gi
 
                     if (includesMoneySign) {
                         // to get only number from price if there is letters in it 
                         // https://justcode.me/how-to/remove-text-from-string-in-javascript/
                         // product.price = Number(product.price.slice(moneySignIndex + 1)) with a .match(/\d+$/)
-                        product.price = Number(product.price.slice(moneySignIndex + 1))
+                        console.log('product.price', product.price)
+                        product.price = product.price.slice(moneySignIndex + 1)
+                        console.log(product.price)
+                        // if (product.includes('sale' || 'Sale'))
+                        product.price = Number(product.price.replace(regex, ''))
+                        console.log('product.price after', product.price, typeof(product.price))
+                        // product.priceRemoveSale = Number((product.price).match('/\d+$/'))
+                        // console.log('product.price', product.price)
+
                         
                     } else {
-                        product.price = Number(product.price)
+                        // let regex = /sale/gi
+                        // product.price = Number(product.price.replace(regex, ''))
+                        product.price = Number((product.price).match('/\d+$/'))
+                        console.log('this is the price', product.price)
                     }
 
 

@@ -66,11 +66,12 @@ class Basket extends Component {
                 <div>
                     Piggy Bank (How much you can spend per month?):
                     <br />
-                    Total Price of Products in Basket: {`$${totalPrice}`}
+                    {/* Total Price of Products in Basket: {`$${Math.max(Math.round(totalPrice * 10)/ 10).toFixed(2)}`} */}
+                    Total Price of Products in Basket: {`$${Number.parseFloat(totalPrice).toFixed(2)}`}
                     <br />
                     Total Amount of Products in Basket: {itemsInBucketArray.length}
                     <br />
-                    Total Amount Per Month Spending in Basket: {`$${totalPPM}`}
+                    Total Amount Per Month Spending in Basket: {`$${Number.parseFloat(totalPPM).toFixed(2)}`}
                 </div>
             </DivStyle>
         )

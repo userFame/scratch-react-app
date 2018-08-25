@@ -12,15 +12,23 @@ class Login extends Component {
             email: '',
             password: ''
         }
-        this.backButton = this.backButton.bind(this)
+        // this.backButton = this.backButton.bind(this)
+        console.log('props in login', props)
+        this.handleChange = this.handleChange.bind(this)
+
     }
 
-
-
-
-    backButton(e) {  
-        this.props.falseCheck(e.target.value)
+    userPageLocate() {
+        window.location.href='/userPage'
     }
+    
+    handleChange(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+        console.log(this.state)
+    }
+
 
     render() {
         return (
@@ -32,21 +40,22 @@ class Login extends Component {
                             <FormControl
                                 autoFocus
                                 type="email"
-                                value={this.state.email}
+                                name='email'
                                 onChange={this.handleChange}
                             />
                         </FormGroup>
                         <FormGroup controlId="password" bsSize="large">
                             <ControlLabel>Password</ControlLabel>
                             <FormControl
-                                value={this.state.password}
                                 onChange={this.handleChange}
+                                name='password'
                                 type="password"
                             />
                         </FormGroup>
                         <Button
                             block
                             bsSize="large"
+                            onClick={this.userPageLocate.bind(this)}
                         // disabled={!this.validateForm()}
                         // type="submit"
                         >
@@ -55,8 +64,7 @@ class Login extends Component {
                         <Button
                             block
                             bsSize="large"
-                            onClick={e => this.backButton(e)}
-                            value='false'
+                            onClick={(e) => this.props.falseCheck()}
                         >
                             Back
                         </Button>

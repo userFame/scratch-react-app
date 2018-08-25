@@ -5,6 +5,7 @@ import Login from '../Login/Login.jsx'
 import UserPage from '../../UserPage/UserPage.jsx'
 
 import styled from 'styled-components'
+import pic from '../../../public/images/share-a-coin.png'
 
 
 
@@ -37,15 +38,19 @@ const Wrapper = styled.section`
     background-color: papayawhip; 
     box-sizing: border-box;
     height: 110vh;
-
 `;
+
+const Logo = styled.img`
+    src: ${props => props.pic};
+    text-align: right;
+`
 
 class Welcome extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            app: 'Wish Me',
+            app: 'Wish Well',
             loginPopUp: true,
             isToggleOn: true
         }
@@ -60,38 +65,40 @@ class Welcome extends Component {
             }))
     }
 
-    // tries to get rid of form by passing false from Login component
-    backButton(e) {
-        console.log(e)
-
-        this.setState({
-            isToggleOn: false
-        })
-        // this.forceUpdate()
-        console.log(this.state.isToggleOn)
-    }
-
-    render() {
+    homeRender() {
         return (
             <div>
-
                 <NavigationBar />
                 <Wrapper>
                     <Title>{this.state.app}</Title>
                     <h2>Wish, Command, Receive</h2>
                     <div>
-                        {
-                            (this.state.isToggleOn === true)
-                                ? <button onClick={this.handleClick}>Login</button>
-                                : <Login falseCheck={e => { this.backButton(e); this.forceUpdate() }} />
-                        }
+                        <button onClick={this.handleClick}>Login</button>
                     </div>
                 </Wrapper>
-
-
-
+                <Logo src={pic}/>
             </div>
+        )
+    }
 
+    loginRender() {
+        return (
+            <div>
+                <NavigationBar />
+                <Wrapper>
+                    <Title>{this.state.app}</Title>
+                    <h2>Wish, Command, Receive</h2>
+                    <div>
+                        <Login falseCheck={this.handleClick} />
+                    </div>
+                </Wrapper>
+            </div>
+        )
+    }
+
+    render() {
+        return (
+            this.state.isToggleOn ? this.homeRender() : this.loginRender()
         )
     }
 }

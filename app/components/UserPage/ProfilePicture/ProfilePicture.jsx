@@ -6,7 +6,7 @@ import pic from '../../../public/images/gilfoyles.jpg'
 
 
 const ProfilePic = styled.img`
-    src: url(${props => props.src});
+    src: ${props => props.src};
     /* background-size: contain; */
     margin: auto;
     max-width: 300px;
